@@ -1,0 +1,53 @@
+$primary-color: darken(brown, 20%);
+$track-color: rgba(lighten(brown, 50%), 0.3);
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.scrollbar {
+    scrollbar-width: auto;
+    scrollbar-color: $primary-color $track-color;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+        width: 0.8em;
+        margin-left: -10px;
+
+        &-track {
+            background-color: $track-color;
+        }
+
+        &-thumb {
+            background-color: $primary-color;
+        }
+
+        &-track,
+        &-thumb {
+            border-radius: 20px;
+        }
+    }
+}
+
+.chat-message {
+    --animate-duration: .5s;
+}
+
+.dialog-box {
+    --animate-duration: 1s;
+}
+
+.fast-dialog {
+    --animate-duration: .2s;
+}
+
+.loader {
+    --animate-duration: 1.5s;
+}

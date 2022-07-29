@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Welcome</title>
+    </head>
+
+    <style>
+        .d-none {
+            display: none;
+        }
+    </style>
+
+    <body>
+        <div id="chat">
+            <ul id="messages"></ul>
+            <button id="open-join">Enable Pairing</button>
+            <form id="form" action="">
+                <input id="input" autocomplete="off" /><button>Send</button>
+            </form>
+        </div>
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        let userId;
+        let roomId;
+        console.log(socket);
+
+        function addMessage(msg) {
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        var loginId = prompt('loginId', '62dc430b62203d42d0b0a5d0');
+        var enablePair = document.getElementById('open-join');
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+
+        enablePair.addEventListener('click', function (e) {
+            enablePair.setAttribute('disabled', true);
+            socket.emit('user.pair-open', {
+                loginId,
+            });
+        });
+
+        socket.on('user.pair-waiting', () => {
+            enablePair.setAttribute('disabled', true);
+            enablePair.textContent = 'Wating for Pair';
+        });
+
+        socket.on('user.pair-joined', () => {
+            alert('You were paired successfully!');
+            enablePair.textContent = 'Enable Pairing';
+            enablePair.removeAttribute('disabled');
+        });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (input.value) {
+                socket.emit('message.add', {
+                    content: input.value,
+                    addedAt: new Date(),
+                });
+                addMessage(input.value);
+                input.value = '';
+            }
+        });
+
+        socket.on('message.added', function (msg) {
+            addMessage(msg.content);
+        });
+
+        socket.on('connect', () => {
+            socket.emit('app.init', { loginId });
+        });
+
+        socket.on('chat.append', (chat) => {});
+
+        socket.on('user.join.waiting', () => {
+            roomId = null;
+            console.log('I am waiting :(');
+        });
+
+        socket.on('user.join.success', (_roomId) => {
+            roomId = _roomId;
+            console.log('I was paired!');
+        });
+
+        socket.on('message.list', (messages) => {
+            if (messages instanceof Array) {
+                document
+                    .querySelector('ul')
+                    .querySelectorAll('li')
+                    .forEach((li) => {
+                        li.remove();
+                    });
+
+                messages.forEach((message) => {
+                    console.log(message);
+                    addMessage(message);
+                });
+            }
+        });
+
+        socket.on('user.leave', (user) => {
+            console.log('User left', user);
+        });
+
+        // setInterval(() => {
+        //     socket.disconnect()
+        //     roomId = null
+
+        //     setTimeout(() => {
+        //         socket.connect()
+        //     }, 2000)
+        // }, 30000)
+
+        window.socket = socket;
+    </script>
+</html>
