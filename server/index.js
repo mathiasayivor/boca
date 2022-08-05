@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-    const { email } = req.body;
+    const { email, isAnonymous } = req.body;
     if (!email) {
         res.status(401).json({
             message: 'Email is required',
@@ -34,7 +34,7 @@ app.post('/login', async (req, res) => {
         return;
     }
 
-    const { login: _login, user } = await login(email);
+    const { login: _login, user } = await login(email, isAnonymous ?? false);
 
     res.json({
         icon: user.icon,

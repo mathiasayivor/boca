@@ -38,19 +38,19 @@ export async function fetchChatsFromDB(
     return !flatten
         ? chats
         : chats.map((chat) => ({
-              id: chat._id,
-              messages: chat.messages.map(
-                  ({ _id, user, content, addedAt }) => ({
-                      id: _id,
-                      sender: user._id,
-                      content,
-                      addedAt,
-                  })
-              ),
-              createdAt: chat.createdAt,
-              lastMessageAt: chat.lastMessageAt,
-              isDisabled: chat.disables.length > 0,
-          }));
+            id: chat._id,
+            messages: chat.messages.map(
+                ({ _id, user, content, addedAt }) => ({
+                    id: _id,
+                    sender: user._id,
+                    content,
+                    addedAt,
+                })
+            ),
+            createdAt: chat.createdAt,
+            lastMessageAt: chat.lastMessageAt,
+            isDisabled: chat.disables.length > 0,
+        }));
 }
 
 export function userExists(userId) {
@@ -135,7 +135,13 @@ export async function createChat(users) {
     });
 }
 
-export async function login(email) {
+/**
+ * 
+ * @param {string} email 
+ * @param {boolean} isAnonymous 
+ * @returns 
+ */
+export async function login(email, isAnonymous = false) {
     let user = await User.findOne({ email });
     if (!user) {
         const _id = new mongoose.Types.ObjectId();
@@ -149,6 +155,7 @@ export async function login(email) {
             _id,
             email,
             icon,
+            isAnonymous
         });
     }
 
