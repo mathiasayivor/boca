@@ -1,2 +1,2 @@
 ## TODO
-* Add Docker so installing and setting up MongoDB is fast
+* Add Docker so installing and setting up MongoDB is fast -- DONE!
