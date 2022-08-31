@@ -3,6 +3,9 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "scripts": {
+        "dev": "docker compose up -d && nodemon index.js"
+    },
     "dependencies": {
         "@dicebear/avatars": "^4.10.3",
         "@dicebear/avatars-identicon-sprites": "^4.10.3",
@@ -16,6 +19,7 @@
     "devDependencies": {
         "@types/express": "^4.17.13",
         "@types/randomstring": "^1.1.8",
-        "@types/uuid": "^8.3.4"
+        "@types/uuid": "^8.3.4",
+        "nodemon": "^2.0.19"
     }
 }
