@@ -9,7 +9,7 @@ Do proper documentation
 
 # REQUIREMENTS
 * [NodeJs](https://nodejs.org)
-* [MongoDB](https://www.mongodb.com/docs/manual/tutorial/#installation)
-> For some reason, the latest version of MongoDB wasn't working for me. So to avoid issues, it's safe to install version `4.4`
+* <s>[MongoDB](https://www.mongodb.com/docs/manual/tutorial/#installation)</s> [Docker](https://docs.docker.com/desktop)
+> <s>For some reason, the latest version of MongoDB wasn't working for me. So to avoid issues, it's safe to install version `4.4`</s>
 * [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
 > Dont have Yarn? No problems. Just remove the `yarn.lock` file and use npm like normal in each directory (`/server` and `/client`)
